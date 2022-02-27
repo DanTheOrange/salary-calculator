@@ -1,4 +1,5 @@
 import {
+    Box,
     Flex,
     IconButton,
     Popover,
@@ -80,108 +81,110 @@ export const Breakdown = () => {
     const takeHome = useTakeHome()
 
     return (
-        <Table size="sm">
-            <Thead>
-                <Tr>
-                    <Th></Th>
-                    {COLUMNS.map(({ title }) => (
-                        <Th key={title}>{title}</Th>
-                    ))}
-                </Tr>
-            </Thead>
-            <Tbody>
-                <Tr>
-                    <Th width="200px">Income</Th>
-                    {COLUMNS.map(({ title, modifyForColumn }) => (
-                        <Td key={title}>
-                            {salary === undefined || salary === 0
-                                ? '-'
-                                : formatCurrencyString(modifyForColumn(salary))}
-                        </Td>
-                    ))}
-                </Tr>
-                <Tr>
-                    <Th width="200px">Tax</Th>
-                    {COLUMNS.map(({ title, modifyForColumn }) => (
-                        <Td key={title}>
-                            <Flex alignItems="baseline">
-                                {tax === undefined || tax === 0
+        <Box overflowX="auto">
+            <Table size="sm">
+                <Thead>
+                    <Tr>
+                        <Th></Th>
+                        {COLUMNS.map(({ title }) => (
+                            <Th key={title}>{title}</Th>
+                        ))}
+                    </Tr>
+                </Thead>
+                <Tbody>
+                    <Tr>
+                        <Th width="200px">Income</Th>
+                        {COLUMNS.map(({ title, modifyForColumn }) => (
+                            <Td key={title}>
+                                {salary === undefined || salary === 0
                                     ? '-'
-                                    : formatCurrencyString(modifyForColumn(tax))}
+                                    : formatCurrencyString(modifyForColumn(salary))}
+                            </Td>
+                        ))}
+                    </Tr>
+                    <Tr>
+                        <Th width="200px">Tax</Th>
+                        {COLUMNS.map(({ title, modifyForColumn }) => (
+                            <Td key={title}>
+                                <Flex alignItems="baseline">
+                                    {tax === undefined || tax === 0
+                                        ? '-'
+                                        : formatCurrencyString(modifyForColumn(tax))}
 
-                                {taxBreakdown && tax !== 0 && (
-                                    <Popover>
-                                        <PopoverTrigger>
-                                            <IconButton
-                                                aria-label="Tax Breakdown"
-                                                variant="ghost"
-                                                ml="4"
-                                                size="xs"
-                                                icon={<BsInfoCircle />}
-                                            />
-                                        </PopoverTrigger>
-                                        <Portal>
-                                            <PopoverContent>
-                                                <PopoverArrow />
-                                                <PopoverHeader>Tax Breakdown</PopoverHeader>
-                                                <PopoverCloseButton />
-                                                <PopoverBody>
-                                                    {Object.entries(taxBreakdown).map(
-                                                        ([key, { tax, percentage }]) =>
-                                                            tax !== 0 ? (
-                                                                <Flex key={key}>
-                                                                    <Text flexGrow={1}>
-                                                                        {`${TAX_RATE_STRING_MAP.get(
-                                                                            key as TAX_RATES
-                                                                        )} at ${percentage}%`}
-                                                                    </Text>
-                                                                    <Text>
-                                                                        {formatCurrencyString(
-                                                                            modifyForColumn(tax)
-                                                                        )}
-                                                                    </Text>
-                                                                </Flex>
-                                                            ) : (
-                                                                <React.Fragment key={key} />
-                                                            )
-                                                    )}
-                                                </PopoverBody>
-                                            </PopoverContent>
-                                        </Portal>
-                                    </Popover>
-                                )}
-                            </Flex>
-                        </Td>
-                    ))}
-                </Tr>
-                <Tr>
-                    <Th width="200px">National Insurance</Th>
-                    {COLUMNS.map(({ title, modifyForColumn }) => (
-                        <Td key={title}>
-                            <Flex alignItems="baseline">
-                                {nationalInsurance === undefined || nationalInsurance === 0
-                                    ? '-'
-                                    : formatCurrencyString(modifyForColumn(nationalInsurance))}
+                                    {taxBreakdown && tax !== 0 && (
+                                        <Popover>
+                                            <PopoverTrigger>
+                                                <IconButton
+                                                    aria-label="Tax Breakdown"
+                                                    variant="ghost"
+                                                    ml="4"
+                                                    size="xs"
+                                                    icon={<BsInfoCircle />}
+                                                />
+                                            </PopoverTrigger>
+                                            <Portal>
+                                                <PopoverContent>
+                                                    <PopoverArrow />
+                                                    <PopoverHeader>Tax Breakdown</PopoverHeader>
+                                                    <PopoverCloseButton />
+                                                    <PopoverBody>
+                                                        {Object.entries(taxBreakdown).map(
+                                                            ([key, { tax, percentage }]) =>
+                                                                tax !== 0 ? (
+                                                                    <Flex key={key}>
+                                                                        <Text flexGrow={1}>
+                                                                            {`${TAX_RATE_STRING_MAP.get(
+                                                                                key as TAX_RATES
+                                                                            )} at ${percentage}%`}
+                                                                        </Text>
+                                                                        <Text>
+                                                                            {formatCurrencyString(
+                                                                                modifyForColumn(tax)
+                                                                            )}
+                                                                        </Text>
+                                                                    </Flex>
+                                                                ) : (
+                                                                    <React.Fragment key={key} />
+                                                                )
+                                                        )}
+                                                    </PopoverBody>
+                                                </PopoverContent>
+                                            </Portal>
+                                        </Popover>
+                                    )}
+                                </Flex>
+                            </Td>
+                        ))}
+                    </Tr>
+                    <Tr>
+                        <Th width="200px">National Insurance</Th>
+                        {COLUMNS.map(({ title, modifyForColumn }) => (
+                            <Td key={title}>
+                                <Flex alignItems="baseline">
+                                    {nationalInsurance === undefined || nationalInsurance === 0
+                                        ? '-'
+                                        : formatCurrencyString(modifyForColumn(nationalInsurance))}
 
-                                {nationalInsuranceBreakdown && nationalInsurance !== 0 && (
-                                    <Popover>
-                                        <PopoverTrigger>
-                                            <IconButton
-                                                aria-label="National Insurance Breakdown"
-                                                variant="ghost"
-                                                ml="4"
-                                                size="xs"
-                                                icon={<BsInfoCircle />}
-                                            />
-                                        </PopoverTrigger>
-                                        <Portal>
-                                            <PopoverContent>
-                                                <PopoverArrow />
-                                                <PopoverHeader>Tax Breakdown</PopoverHeader>
-                                                <PopoverCloseButton />
-                                                <PopoverBody>
-                                                    {Object.entries(nationalInsuranceBreakdown).map(
-                                                        ([key, { ni, percentage }]) =>
+                                    {nationalInsuranceBreakdown && nationalInsurance !== 0 && (
+                                        <Popover>
+                                            <PopoverTrigger>
+                                                <IconButton
+                                                    aria-label="National Insurance Breakdown"
+                                                    variant="ghost"
+                                                    ml="4"
+                                                    size="xs"
+                                                    icon={<BsInfoCircle />}
+                                                />
+                                            </PopoverTrigger>
+                                            <Portal>
+                                                <PopoverContent>
+                                                    <PopoverArrow />
+                                                    <PopoverHeader>Tax Breakdown</PopoverHeader>
+                                                    <PopoverCloseButton />
+                                                    <PopoverBody>
+                                                        {Object.entries(
+                                                            nationalInsuranceBreakdown
+                                                        ).map(([key, { ni, percentage }]) =>
                                                             ni !== 0 ? (
                                                                 <Flex key={key}>
                                                                     <Text flexGrow={1}>
@@ -198,100 +201,101 @@ export const Breakdown = () => {
                                                             ) : (
                                                                 <React.Fragment key={key} />
                                                             )
+                                                        )}
+                                                    </PopoverBody>
+                                                </PopoverContent>
+                                            </Portal>
+                                        </Popover>
+                                    )}
+                                </Flex>
+                            </Td>
+                        ))}
+                    </Tr>
+                    <Tr>
+                        <Th width="200px">Student Loan</Th>
+                        {COLUMNS.map(({ title, modifyForColumn }) => (
+                            <Td key={title}>
+                                <Flex alignItems="baseline">
+                                    {studentLoan === undefined || studentLoan === 0
+                                        ? '-'
+                                        : formatCurrencyString(modifyForColumn(studentLoan))}
+                                    {studentLoanBreakdown && studentLoan !== 0 && (
+                                        <Popover>
+                                            <PopoverTrigger>
+                                                <IconButton
+                                                    aria-label="Student Loan Breakdown"
+                                                    variant="ghost"
+                                                    ml="4"
+                                                    size="xs"
+                                                    icon={<BsInfoCircle />}
+                                                />
+                                            </PopoverTrigger>
+                                            <Portal>
+                                                <PopoverContent>
+                                                    <PopoverArrow />
+                                                    <PopoverHeader>
+                                                        Student Loan Breakdown
+                                                    </PopoverHeader>
+                                                    <PopoverCloseButton />
+                                                    <PopoverBody>
+                                                        {Object.entries(studentLoanBreakdown).map(
+                                                            ([key, { sl, percentage }]) =>
+                                                                sl !== 0 ? (
+                                                                    <Flex key={key}>
+                                                                        <Text flexGrow={1}>
+                                                                            {`${STUDENT_LOAN_RATE_STRINGS.get(
+                                                                                key as STUDENT_LOAN_RATES
+                                                                            )} at ${percentage}%`}
+                                                                        </Text>
+                                                                        <Text>
+                                                                            {formatCurrencyString(
+                                                                                modifyForColumn(sl)
+                                                                            )}
+                                                                        </Text>
+                                                                    </Flex>
+                                                                ) : (
+                                                                    <React.Fragment key={key} />
+                                                                )
+                                                        )}
+                                                    </PopoverBody>
+                                                    {planOne && planTwo && (
+                                                        <PopoverFooter>
+                                                            Plans 1 and 2 stack, you'll pay only the
+                                                            gap between where plan 1 starts and plan
+                                                            2 starts from your plan 1 loan if you
+                                                            have both.
+                                                        </PopoverFooter>
                                                     )}
-                                                </PopoverBody>
-                                            </PopoverContent>
-                                        </Portal>
-                                    </Popover>
-                                )}
-                            </Flex>
-                        </Td>
-                    ))}
-                </Tr>
-                <Tr>
-                    <Th width="200px">Student Loan</Th>
-                    {COLUMNS.map(({ title, modifyForColumn }) => (
-                        <Td key={title}>
-                            <Flex alignItems="baseline">
-                                {studentLoan === undefined || studentLoan === 0
+                                                </PopoverContent>
+                                            </Portal>
+                                        </Popover>
+                                    )}
+                                </Flex>
+                            </Td>
+                        ))}
+                    </Tr>
+                    <Tr>
+                        <Th width="200px">Pension</Th>
+                        {COLUMNS.map(({ title, modifyForColumn }) => (
+                            <Td key={title}>
+                                {pension === undefined || pension === 0
                                     ? '-'
-                                    : formatCurrencyString(modifyForColumn(studentLoan))}
-                                {studentLoanBreakdown && studentLoan !== 0 && (
-                                    <Popover>
-                                        <PopoverTrigger>
-                                            <IconButton
-                                                aria-label="Student Loan Breakdown"
-                                                variant="ghost"
-                                                ml="4"
-                                                size="xs"
-                                                icon={<BsInfoCircle />}
-                                            />
-                                        </PopoverTrigger>
-                                        <Portal>
-                                            <PopoverContent>
-                                                <PopoverArrow />
-                                                <PopoverHeader>
-                                                    Student Loan Breakdown
-                                                </PopoverHeader>
-                                                <PopoverCloseButton />
-                                                <PopoverBody>
-                                                    {Object.entries(studentLoanBreakdown).map(
-                                                        ([key, { sl, percentage }]) =>
-                                                            sl !== 0 ? (
-                                                                <Flex key={key}>
-                                                                    <Text flexGrow={1}>
-                                                                        {`${STUDENT_LOAN_RATE_STRINGS.get(
-                                                                            key as STUDENT_LOAN_RATES
-                                                                        )} at ${percentage}%`}
-                                                                    </Text>
-                                                                    <Text>
-                                                                        {formatCurrencyString(
-                                                                            modifyForColumn(sl)
-                                                                        )}
-                                                                    </Text>
-                                                                </Flex>
-                                                            ) : (
-                                                                <React.Fragment key={key} />
-                                                            )
-                                                    )}
-                                                </PopoverBody>
-                                                {planOne && planTwo && (
-                                                    <PopoverFooter>
-                                                        Plans 1 and 2 stack, you'll pay only the gap
-                                                        between where plan 1 starts and plan 2
-                                                        starts from your plan 1 loan if you have
-                                                        both.
-                                                    </PopoverFooter>
-                                                )}
-                                            </PopoverContent>
-                                        </Portal>
-                                    </Popover>
-                                )}
-                            </Flex>
-                        </Td>
-                    ))}
-                </Tr>
-                <Tr>
-                    <Th width="200px">Pension</Th>
-                    {COLUMNS.map(({ title, modifyForColumn }) => (
-                        <Td key={title}>
-                            {pension === undefined || pension === 0
-                                ? '-'
-                                : formatCurrencyString(modifyForColumn(pension))}
-                        </Td>
-                    ))}
-                </Tr>
-                <Tr>
-                    <Th width="200px">Take Home</Th>
-                    {COLUMNS.map(({ title, modifyForColumn }) => (
-                        <Td key={title}>
-                            {takeHome === undefined || takeHome === 0
-                                ? '-'
-                                : formatCurrencyString(modifyForColumn(takeHome))}
-                        </Td>
-                    ))}
-                </Tr>
-            </Tbody>
-        </Table>
+                                    : formatCurrencyString(modifyForColumn(pension))}
+                            </Td>
+                        ))}
+                    </Tr>
+                    <Tr>
+                        <Th width="200px">Take Home</Th>
+                        {COLUMNS.map(({ title, modifyForColumn }) => (
+                            <Td key={title}>
+                                {takeHome === undefined || takeHome === 0
+                                    ? '-'
+                                    : formatCurrencyString(modifyForColumn(takeHome))}
+                            </Td>
+                        ))}
+                    </Tr>
+                </Tbody>
+            </Table>
+        </Box>
     )
 }

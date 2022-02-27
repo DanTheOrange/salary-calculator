@@ -1,18 +1,21 @@
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
+import { Tabs, TabList, TabPanels, Tab, TabProps, TabPanel, Box } from '@chakra-ui/react'
 import { Salary } from './Salary'
 import { StudentLoan } from './StudentLoan'
 // import { TaxYear } from './TaxYear'
 import { Pension } from './Pension'
 
+const CustonTab = (props: TabProps) => <Tab whiteSpace="nowrap" {...props} />
+
 export const DetailForm = () => {
     return (
         <Tabs>
-            <TabList>
-                <Tab>Salary</Tab>
-                <Tab>Student Loans</Tab>
-                <Tab>Pension</Tab>
-            </TabList>
-
+            <Box overflowX="scroll">
+                <TabList>
+                    <CustonTab>Salary</CustonTab>
+                    <CustonTab>Student Loans</CustonTab>
+                    <CustonTab>Pension</CustonTab>
+                </TabList>
+            </Box>
             <TabPanels>
                 <TabPanel>
                     <Salary />

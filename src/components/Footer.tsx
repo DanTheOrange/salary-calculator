@@ -1,13 +1,14 @@
-import { Flex, FlexProps, Text, useColorModeValue } from '@chakra-ui/react'
+import { Stack, StackProps, Text, useColorModeValue } from '@chakra-ui/react'
 
-export const Footer = (props: FlexProps) => {
+export const Footer = (props: StackProps) => {
     const bg = useColorModeValue('blue.100', 'blue.900')
     const borderTopColor = useColorModeValue('blue.200', 'blue.800')
 
     return (
-        <Flex
+        <Stack
             p="2"
-            direction="row"
+            gap="1"
+            direction={{ base: 'column', md: 'row' }}
             bg={bg}
             borderTopWidth="1px"
             borderTopStyle="solid"
@@ -25,6 +26,6 @@ export const Footer = (props: FlexProps) => {
             <Text fontSize="xs">
                 This is just a rough guide, it isn't accurate and it isn't really meant to be
             </Text>
-        </Flex>
+        </Stack>
     )
 }
