@@ -21,13 +21,20 @@ import {
 import React from 'react'
 import { BsInfoCircle } from 'react-icons/bs'
 import {
+    NATIONAL_INSURANCE_RATES,
+    NATIONAL_INSURANCE_RATE_STRINGS,
     STUDENT_LOAN_RATES,
     STUDENT_LOAN_RATE_STRINGS,
     TAX_RATES,
     TAX_RATE_STRING_MAP,
 } from '../constants'
 import { formatCurrencyString } from '../helpers'
-import { useDeductions, useSalary, useTakeHome } from '../hooks/useCalculator'
+import {
+    useDeductions,
+    useSalary,
+    useStudentLoanControls,
+    useTakeHome,
+} from '../hooks/useCalculator'
 
 type ColumnOptions = {
     title: string
@@ -67,6 +74,8 @@ export const Breakdown = () => {
         studentLoanBreakdown,
         pension,
     } = useDeductions()
+
+    const { planOne, planTwo } = useStudentLoanControls()
 
     const takeHome = useTakeHome()
 
@@ -176,8 +185,8 @@ export const Breakdown = () => {
                                                             ni !== 0 ? (
                                                                 <Flex key={key}>
                                                                     <Text flexGrow={1}>
-                                                                        {`${TAX_RATE_STRING_MAP.get(
-                                                                            key as TAX_RATES
+                                                                        {`${NATIONAL_INSURANCE_RATE_STRINGS.get(
+                                                                            key as NATIONAL_INSURANCE_RATES
                                                                         )} at ${percentage}%`}
                                                                     </Text>
                                                                     <Text>
@@ -246,11 +255,14 @@ export const Breakdown = () => {
                                                             )
                                                     )}
                                                 </PopoverBody>
-                                                <PopoverFooter>
-                                                    Plans 1 and 2 stack, you'll pay only the gap
-                                                    between where plan 1 starts and plan 2 starts
-                                                    off of your plan 1 loan if you have both.
-                                                </PopoverFooter>
+                                                {planOne && planTwo && (
+                                                    <PopoverFooter>
+                                                        Plans 1 and 2 stack, you'll pay only the gap
+                                                        between where plan 1 starts and plan 2
+                                                        starts from your plan 1 loan if you have
+                                                        both.
+                                                    </PopoverFooter>
+                                                )}
                                             </PopoverContent>
                                         </Portal>
                                     </Popover>

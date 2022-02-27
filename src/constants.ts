@@ -61,8 +61,8 @@ export type NATIONAL_INSURANCE_RATES = 'none' | 'standard' | 'upper'
 
 export const NATIONAL_INSURANCE_RATE_STRINGS = new Map<NATIONAL_INSURANCE_RATES, string>([
     ['none', 'None'],
-    ['standard', 'Standard'],
-    ['upper', 'Upper'],
+    ['standard', 'Taxed at'],
+    ['upper', 'Taxed at'],
 ])
 
 // Your pay	Class 1 National Insurance rate
