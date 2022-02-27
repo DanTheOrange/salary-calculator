@@ -1,4 +1,4 @@
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/tabs'
+import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 import { Salary } from './Salary'
 import { StudentLoan } from './StudentLoan'
 // import { TaxYear } from './TaxYear'

@@ -1,13 +1,12 @@
-import { ChakraProvider } from '@chakra-ui/react'
-import { Stack, Text, Flex } from '@chakra-ui/layout'
+import { ChakraProvider, Flex, Stack, Text } from '@chakra-ui/react'
 import React from 'react'
 import { Breakdown } from './components/Breakdown'
+import { ColorModeToggle } from './components/ColorModeToggle'
 import { DetailForm } from './components/DetailForm'
-import { HeaderBar } from './components/HeaderBar'
 import { Footer } from './components/Footer'
+import { HeaderBar } from './components/HeaderBar'
 import { CalculatorProvider } from './hooks/useCalculator'
 import theme from './theme'
-import { ColorModeToggle } from './components/ColorModeToggle'
 
 // TODO: maybe use a grid for the layout, not a fan of chakra grid stuff
 export const App = () => (

@@ -1,6 +1,4 @@
-import { FormControl, FormLabel } from '@chakra-ui/form-control'
-import { SimpleGrid } from '@chakra-ui/layout'
-import { Switch } from '@chakra-ui/switch'
+import { FormControl, FormLabel, SimpleGrid, Switch } from '@chakra-ui/react'
 import { STUDENT_LOAN_RATE_STRINGS } from '../constants'
 import { useStudentLoanControls } from '../hooks/useCalculator'
 

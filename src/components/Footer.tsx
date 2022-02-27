@@ -1,5 +1,4 @@
-import { useColorModeValue } from '@chakra-ui/color-mode'
-import { Flex, FlexProps, Text } from '@chakra-ui/layout'
+import { Flex, FlexProps, Text, useColorModeValue } from '@chakra-ui/react'
 
 export const Footer = (props: FlexProps) => {
     const bg = useColorModeValue('blue.100', 'blue.900')

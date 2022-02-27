@@ -1,6 +1,6 @@
-import { FormControl, FormLabel } from '@chakra-ui/form-control'
+import { FormControl, FormLabel } from '@chakra-ui/react'
 import { Switch, useColorMode } from '@chakra-ui/react'
-import { Icon } from '@chakra-ui/icon'
+import { Icon } from '@chakra-ui/react'
 import { BsSunFill, BsMoonStarsFill } from 'react-icons/bs'
 
 export const ColorModeToggle = () => {

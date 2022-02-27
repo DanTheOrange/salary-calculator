@@ -1,27 +1,33 @@
 import {
+    Flex,
+    IconButton,
     Popover,
-    PopoverTrigger,
-    PopoverContent,
-    PopoverHeader,
-    PopoverBody,
     PopoverArrow,
+    PopoverBody,
     PopoverCloseButton,
-} from '@chakra-ui/popover'
-import { IconButton } from '@chakra-ui/button'
-import { Portal } from '@chakra-ui/portal'
-import { Table, Thead, Tbody, Tr, Th, Td } from '@chakra-ui/table'
-import { Flex, Text } from '@chakra-ui/layout'
-import { useSalary, useDeductions, useTakeHome } from '../hooks/useCalculator'
+    PopoverContent,
+    PopoverFooter,
+    PopoverHeader,
+    PopoverTrigger,
+    Portal,
+    Table,
+    Tbody,
+    Td,
+    Text,
+    Th,
+    Thead,
+    Tr,
+} from '@chakra-ui/react'
+import React from 'react'
 import { BsInfoCircle } from 'react-icons/bs'
-import { formatCurrencyString } from '../helpers'
 import {
     STUDENT_LOAN_RATES,
     STUDENT_LOAN_RATE_STRINGS,
     TAX_RATES,
     TAX_RATE_STRING_MAP,
 } from '../constants'
-import { PopoverFooter } from '@chakra-ui/react'
-import React from 'react'
+import { formatCurrencyString } from '../helpers'
+import { useDeductions, useSalary, useTakeHome } from '../hooks/useCalculator'
 
 type ColumnOptions = {
     title: string

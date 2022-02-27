@@ -1,4 +1,4 @@
-import { InputGroup, InputLeftElement, Input } from '@chakra-ui/input'
+import { Input, InputGroup, InputLeftElement } from '@chakra-ui/react'
 import { useMemo } from 'react'
 import { usePension } from '../hooks/useCalculator'
 

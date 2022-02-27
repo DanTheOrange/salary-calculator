@@ -1,4 +1,4 @@
-import { useBoolean } from '@chakra-ui/hooks'
+import { useBoolean } from '@chakra-ui/react'
 import constate from 'constate'
 import { useState, useMemo } from 'react'
 import {
