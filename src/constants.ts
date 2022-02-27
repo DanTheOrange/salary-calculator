@@ -57,6 +57,14 @@ export const TAX_YEAR_RATES = new Map<TAX_YEARS, { [key in TAX_RATES]: RATE }>([
     ],
 ])
 
+export const TAX_FREE_ALLOWANCE_REDUCTION_MAP = new Map<
+    TAX_YEARS,
+    { salary: number; ratio: (number) => number }
+>([
+    // ['2020', {salary: 100000, ratio: (salary) => Math.floor((salary - 100000) / 2)}],
+    ['2021', { salary: 100000, ratio: (salary) => Math.floor((salary - 100000) / 2) }],
+])
+
 export type NATIONAL_INSURANCE_RATES = 'none' | 'standard' | 'upper'
 
 export const NATIONAL_INSURANCE_RATE_STRINGS = new Map<NATIONAL_INSURANCE_RATES, string>([

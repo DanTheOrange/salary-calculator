@@ -31,6 +31,7 @@ import {
 } from '../constants'
 import { formatCurrencyString } from '../helpers'
 import {
+    useAllowance,
     useDeductions,
     useSalary,
     useStudentLoanControls,
@@ -65,7 +66,7 @@ const COLUMNS: ColumnOptions[] = [
 // TODO: clean up the popovers and make them a reusable component
 export const Breakdown = () => {
     const { salary } = useSalary()
-
+    const { taxFreeAllowance, allowanceAdjustment, allowanceAdjustmentAmount } = useAllowance()
     const {
         tax,
         taxBreakdown,
@@ -75,9 +76,7 @@ export const Breakdown = () => {
         studentLoanBreakdown,
         pension,
     } = useDeductions()
-
     const { planOne, planTwo } = useStudentLoanControls()
-
     const takeHome = useTakeHome()
 
     return (
@@ -99,6 +98,45 @@ export const Breakdown = () => {
                                 {salary === undefined || salary === 0
                                     ? '-'
                                     : formatCurrencyString(modifyForColumn(salary))}
+                            </Td>
+                        ))}
+                    </Tr>
+                    <Tr>
+                        <Th width="200px">Tax Free Allowance</Th>
+                        {COLUMNS.map(({ title, modifyForColumn }) => (
+                            <Td key={title}>
+                                {taxFreeAllowance === undefined || taxFreeAllowance === 0
+                                    ? '-'
+                                    : formatCurrencyString(modifyForColumn(taxFreeAllowance))}
+                                {!!allowanceAdjustment && (
+                                    <Popover>
+                                        <PopoverTrigger>
+                                            <IconButton
+                                                aria-label="Tax Free Allowance Adjustment"
+                                                variant="ghost"
+                                                ml="4"
+                                                size="xs"
+                                                icon={<BsInfoCircle />}
+                                            />
+                                        </PopoverTrigger>
+                                        <Portal>
+                                            <PopoverContent>
+                                                <PopoverArrow />
+                                                <PopoverHeader>
+                                                    Tax Free Allowance Adjustment
+                                                </PopoverHeader>
+                                                <PopoverCloseButton />
+                                                <PopoverBody>
+                                                    {`If you earn over ${formatCurrencyString(
+                                                        modifyForColumn(allowanceAdjustmentAmount)
+                                                    )} your tax free allowance is reduced. For this salary it has been reduced by ${formatCurrencyString(
+                                                        modifyForColumn(allowanceAdjustment)
+                                                    )}`}
+                                                </PopoverBody>
+                                            </PopoverContent>
+                                        </Portal>
+                                    </Popover>
+                                )}
                             </Td>
                         ))}
                     </Tr>

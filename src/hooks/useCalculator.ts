@@ -1,4 +1,4 @@
-import { useBoolean } from '@chakra-ui/react'
+import { useBoolean } from '@chakra-ui/hooks'
 import constate from 'constate'
 import { useState, useMemo } from 'react'
 import {
@@ -10,6 +10,7 @@ import {
     TAX_YEARS,
     TAX_YEAR_RATES,
     PENSION_TYPE,
+    TAX_FREE_ALLOWANCE_REDUCTION_MAP,
 } from '../constants'
 
 type TaxBreakdown = {
@@ -34,12 +35,33 @@ function useCalculator() {
     const [pensionType, setPensionType] = useState<PENSION_TYPE>('auto')
     const [pensionContribution, setPensionContribution] = useState<number | undefined>()
 
+    const allowanceAdjustmentAmount = useMemo(
+        () => TAX_FREE_ALLOWANCE_REDUCTION_MAP.get(taxYear).salary,
+        [taxYear]
+    )
+    const allowanceAdjustment = useMemo<false | number>(() => {
+        if (salary < TAX_FREE_ALLOWANCE_REDUCTION_MAP.get(taxYear).salary) return false
+        return TAX_FREE_ALLOWANCE_REDUCTION_MAP.get(taxYear).ratio(salary)
+    }, [salary, taxYear])
+
+    const taxFreeAllowance = useMemo<number>(() => {
+        const allowance = TAX_YEAR_RATES.get(taxYear)?.allowance.to || 0
+        if (allowanceAdjustment) console.log(Math.max(allowance - allowanceAdjustment, 0))
+
+        if (allowanceAdjustment) return Math.max(allowance - allowanceAdjustment, 0)
+        return allowance
+    }, [salary, taxYear, allowanceAdjustment])
+
     const taxBreakdown = useMemo<TaxBreakdown | undefined>(() => {
         if (!salary) return undefined
         const brackets = TAX_YEAR_RATES.get(taxYear)
 
         return Object.entries(brackets).reduce((acc, [key, { from, to, percentage }]) => {
             let tax: number
+            if (allowanceAdjustment) {
+                to = to - allowanceAdjustment
+                from = from - allowanceAdjustment
+            }
             if (salary < from) tax = 0
             else tax = ((Math.min(salary, to) - from) * percentage) / 100
 
@@ -127,6 +149,9 @@ function useCalculator() {
         setTaxYear,
         salary,
         setSalary,
+        allowanceAdjustmentAmount,
+        allowanceAdjustment,
+        taxFreeAllowance,
         pensionType,
         setPensionType,
         pensionContribution,
@@ -154,6 +179,7 @@ export const [
     CalculatorProvider,
     useTaxYear,
     useSalary,
+    useAllowance,
     useDeductions,
     useTakeHome,
     useStudentLoanControls,
@@ -162,6 +188,11 @@ export const [
     useCalculator,
     (value) => ({ taxYear: value.taxYear, setTaxYear: value.setTaxYear }),
     (value) => ({ salary: value.salary, setSalary: value.setSalary }),
+    (value) => ({
+        allowanceAdjustmentAmount: value.allowanceAdjustmentAmount,
+        taxFreeAllowance: value.taxFreeAllowance,
+        allowanceAdjustment: value.allowanceAdjustment,
+    }),
     (value) => ({
         tax: value.tax,
         taxBreakdown: value.taxBreakdown,
