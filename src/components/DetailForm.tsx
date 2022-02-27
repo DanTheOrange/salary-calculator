@@ -9,7 +9,7 @@ const CustonTab = (props: TabProps) => <Tab whiteSpace="nowrap" {...props} />
 export const DetailForm = () => {
     return (
         <Tabs>
-            <Box overflowX="scroll">
+            <Box overflowX="auto">
                 <TabList>
                     <CustonTab>Salary</CustonTab>
                     <CustonTab>Student Loans</CustonTab>
