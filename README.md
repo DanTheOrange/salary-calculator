@@ -1,4 +1,4 @@
-# salary-calculator
+# Salary Calculator
 
 This project isn't too serious. I just wanted a nice little app to build to play with some libraries and do some maths. Feel free to make PR's.
 
