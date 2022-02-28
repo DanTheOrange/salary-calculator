@@ -11,6 +11,7 @@ import {
     TAX_YEAR_RATES,
     PENSION_TYPE,
     TAX_FREE_ALLOWANCE_REDUCTION_MAP,
+    TAX_FREE_ALLOWANCE_MAP,
 } from '../constants'
 
 type TaxBreakdown = {
@@ -39,14 +40,19 @@ function useCalculator() {
         () => TAX_FREE_ALLOWANCE_REDUCTION_MAP.get(taxYear).salary,
         [taxYear]
     )
-    const allowanceAdjustment = useMemo<false | number>(() => {
-        if (salary < TAX_FREE_ALLOWANCE_REDUCTION_MAP.get(taxYear).salary) return false
-        return TAX_FREE_ALLOWANCE_REDUCTION_MAP.get(taxYear).ratio(salary)
+
+    const allowanceAdjustment = useMemo<number>(() => {
+        if (salary < TAX_FREE_ALLOWANCE_REDUCTION_MAP.get(taxYear).salary) return 0
+
+        // Don't reduce the tax free amount to more than the tax free amount
+        return Math.min(
+            TAX_FREE_ALLOWANCE_REDUCTION_MAP.get(taxYear).ratio(salary),
+            TAX_FREE_ALLOWANCE_MAP.get(taxYear)
+        )
     }, [salary, taxYear])
 
     const taxFreeAllowance = useMemo<number>(() => {
-        const allowance = TAX_YEAR_RATES.get(taxYear)?.allowance.to || 0
-        if (allowanceAdjustment) console.log(Math.max(allowance - allowanceAdjustment, 0))
+        const allowance = TAX_FREE_ALLOWANCE_MAP.get(taxYear)
 
         if (allowanceAdjustment) return Math.max(allowance - allowanceAdjustment, 0)
         return allowance
@@ -59,8 +65,8 @@ function useCalculator() {
         return Object.entries(brackets).reduce((acc, [key, { from, to, percentage }]) => {
             let tax: number
             if (allowanceAdjustment) {
-                to = to - allowanceAdjustment
-                from = from - allowanceAdjustment
+                to -= allowanceAdjustment
+                from -= allowanceAdjustment
             }
             if (salary < from) tax = 0
             else tax = ((Math.min(salary, to) - from) * percentage) / 100
@@ -70,7 +76,7 @@ function useCalculator() {
                 [key]: { tax, percentage },
             }
         }, {} as TaxBreakdown)
-    }, [salary, taxYear])
+    }, [salary, taxYear, allowanceAdjustment])
 
     const tax = useMemo<number | undefined>(() => {
         if (!taxBreakdown) return

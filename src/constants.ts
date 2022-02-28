@@ -7,10 +7,9 @@ export const TAX_YEAR_STRING_MAP = new Map<TAX_YEARS, string>([
     ['2021', '2021 - 2022'],
 ])
 
-export type TAX_RATES = 'allowance' | 'basic' | 'higher' | 'additional'
+export type TAX_RATES = 'basic' | 'higher' | 'additional'
 
 export const TAX_RATE_STRING_MAP = new Map<TAX_RATES, string>([
-    ['allowance', 'Personal allowance'],
     ['basic', 'Basic rate'],
     ['higher', 'Higher rate'],
     ['additional', 'Additional rate'],
@@ -33,11 +32,6 @@ export const TAX_YEAR_RATES = new Map<TAX_YEARS, { [key in TAX_RATES]: RATE }>([
     [
         '2021',
         {
-            allowance: {
-                from: 0,
-                to: 12570,
-                percentage: 0,
-            },
             basic: {
                 from: 12570,
                 to: 50270,
@@ -57,11 +51,17 @@ export const TAX_YEAR_RATES = new Map<TAX_YEARS, { [key in TAX_RATES]: RATE }>([
     ],
 ])
 
+// TODO: 2020 isn't correct, well, i didn't check
+export const TAX_FREE_ALLOWANCE_MAP = new Map<TAX_YEARS, number>([
+    ['2020', 12500],
+    ['2021', 12570],
+])
+
 export const TAX_FREE_ALLOWANCE_REDUCTION_MAP = new Map<
     TAX_YEARS,
     { salary: number; ratio: (number) => number }
 >([
-    // ['2020', {salary: 100000, ratio: (salary) => Math.floor((salary - 100000) / 2)}],
+    ['2020', { salary: 100000, ratio: (salary) => Math.floor((salary - 100000) / 2) }],
     ['2021', { salary: 100000, ratio: (salary) => Math.floor((salary - 100000) / 2) }],
 ])
 

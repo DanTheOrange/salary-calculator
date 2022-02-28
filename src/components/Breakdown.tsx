@@ -105,10 +105,10 @@ export const Breakdown = () => {
                         <Th width="200px">Tax Free Allowance</Th>
                         {COLUMNS.map(({ title, modifyForColumn }) => (
                             <Td key={title}>
-                                {taxFreeAllowance === undefined || taxFreeAllowance === 0
+                                {taxFreeAllowance === undefined
                                     ? '-'
                                     : formatCurrencyString(modifyForColumn(taxFreeAllowance))}
-                                {!!allowanceAdjustment && (
+                                {!!allowanceAdjustment && title === 'Year' && (
                                     <Popover>
                                         <PopoverTrigger>
                                             <IconButton
@@ -217,7 +217,9 @@ export const Breakdown = () => {
                                             <Portal>
                                                 <PopoverContent>
                                                     <PopoverArrow />
-                                                    <PopoverHeader>Tax Breakdown</PopoverHeader>
+                                                    <PopoverHeader>
+                                                        National Insurance Breakdown
+                                                    </PopoverHeader>
                                                     <PopoverCloseButton />
                                                     <PopoverBody>
                                                         {Object.entries(
